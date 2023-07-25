@@ -41,7 +41,7 @@ const listProducts = new ProductManager()
 listProducts.addProduct("EQ21","Zapatilla Adidas",35000,"www.....",12,5)
 //Producto incorrecto por repetir el code
 listProducts.addProduct("pegasus","Zapatilla Nike",45000,"www.....",12,7)
-//Producto correcto
+//Producto correcto.
 listProducts.addProduct("tornado","Paleta Head",35000,"www.....",15,2)
 //Producto incorrecto por no especificar titulo
 listProducts.addProduct("","Zapatilla Nike",45000,"www.....",4,7)
@@ -51,5 +51,7 @@ listProducts.addProduct("REDMI 10","Celular Xiomi",200000,"www.....",5,3)
 listProducts.getProducts()
 //Muestro correctamente un produto por ID
 listProducts.getProductById(2)
+//Muestro correctamente un produto por ID
+listProducts.getProductById(1)
 //Intento acceder a un producto cuya ID no exise.
 listProducts.getProductById(4)
