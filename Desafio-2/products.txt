@@ -1,0 +1,1 @@
+[{"id":1,"title":"avena quaker","description":"avena instantanea","price":600,"thumbnail":"www.asfdsafdsa.com/asdgsd.jpg","code":1123,"stock":123}]{"id":2,"title":"Dulce de leche Serenisima","description":"Dulce de leche tipo colonial","price":800,"thumbnail":"www.asfasfsafsa.com/sfdasfsa.jpg","code":6456,"stock":634}]
