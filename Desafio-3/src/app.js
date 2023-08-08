@@ -5,9 +5,6 @@ import ProductManager from "./ProductManager.js";
 //creo una instancia de la clase ProductManager
 const Products = new ProductManager("./src/")
 
-
-//console.log("\n\nImpresion de la lista de preductos del getProducts:\n",Products.products);
-
 //app va a poder ejecutar todos los metodos de express
 const app = express()
 const PORT = 4000
@@ -19,7 +16,6 @@ app.get('/', (req, res) => {
     res.send("Desafio-3")
 })
 
-//res.send() actua como un return implicito
 app.get('/productos/:id', async (req, res) => {
     await Products.getProducts()
     const prod = Products.products.find(prod => prod.id === parseInt(req.params.id))
@@ -49,5 +45,3 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server on port ${PORT}`)
 })
-
-//POR FAVOR PARA DEVOLVER POR LIMITE EN EL ARRAY USEN SLICE Y NO SPLICE
