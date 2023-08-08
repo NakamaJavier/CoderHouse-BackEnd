@@ -1,1 +1,0 @@
-[{"id":2,"title":"Dulce de leche Serenisima","description":"Dulce de leche tipo colonial","price":800,"thumbnail":"www.asfasfsafsa.com/sfdasfsa.jpg","code":6456,"stock":634}]
