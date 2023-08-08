@@ -5,33 +5,39 @@ import ProductManager from "./ProductManager.js";
 //creo una instancia de la clase ProductManager
 const Products = new ProductManager("./src/")
 
-//cargo los productos del archivo products.json, que fue generado en el desafio-2 y cargado directamente
-await Products.getProducts()
+
 //console.log("\n\nImpresion de la lista de preductos del getProducts:\n",Products.products);
 
 //app va a poder ejecutar todos los metodos de express
 const app = express()
 const PORT = 4000
 
-//Poder ejecutar queries complejas
-app.use(express.urlencoded({ extended: true }))
+//Por si se requieren queries complejas
+//app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
-    res.send("Hola desde el sur")
+    res.send("Desafio-3")
 })
 
 //res.send() actua como un return implicito
 app.get('/productos/:id', async (req, res) => {
-    const prod = productos.find(prod => prod.id === parseInt(req.params.id))
+    await Products.getProducts()
+    const prod = Products.products.find(prod => prod.id === parseInt(req.params.id))
     if (prod)
         res.send(prod)
+    else
     res.send("Producto no encontrado")
 })
 
 app.get('/productos', async (req, res) => {
-    const { categoria } = req.query
-    const prods = productos.filter(prod => prod.categoria === categoria)
-    res.send(prods)
+    await Products.getProducts()
+    const { limit } = req.query
+    if(limit){
+        const prods = Products.products.slice(0,parseInt(limit))
+        res.send(prods)
+    }
+    else
+    res.send(Products.products)
 })
 
 //Ruta 404 es la ultima que se define
