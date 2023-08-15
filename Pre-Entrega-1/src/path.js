@@ -1,5 +1,7 @@
-import { fileURLToPath} from "url";
-import {dirname} from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
 export const __filename = fileURLToPath(import.meta.url)
-export const __diraname = dirname(__filename)
+export const __dirname = dirname(__filename)
+
+//3000026544 80066969                                                                                                                                   
