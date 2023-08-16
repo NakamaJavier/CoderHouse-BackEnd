@@ -71,10 +71,10 @@ export class ProductManager {
     }
 
     async getProductById(id){
-        console.log(typeof(this.products[0].id),typeof(id));
         const idProduct = this.products.find((product)=>product.id == id)
         if(!idProduct){
-            return "Error: Product by ID not found"
+            console.log("Error: Product by ID not found")
+            return false
         }
         else
             return idProduct

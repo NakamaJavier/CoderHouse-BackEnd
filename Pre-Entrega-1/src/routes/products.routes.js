@@ -18,7 +18,7 @@ routerProd.get('/:pid', async (req, res) => {
     if (prod)
         res.status(200).send(prod)
     else
-        res.status(404).send("Producto no existente")
+        res.status(404).send("Error 404: El producto no existente")
 })
 routerProd.post('/', async (req, res) => {
     const { title, description, price, thumbnail, code, stock, category } = req.body;
@@ -42,7 +42,7 @@ routerProd.put('/:pid', async (req, res) => {
     if (confirmacion)
         res.status(200).send("Producto actualizado correctamente")
     else
-        res.status(404).send("Producto no encontrado")
+        res.status(404).send("Error 404: Producto no encontrado")
 })
 
 routerProd.delete('/:pid', async (req, res) => {
@@ -51,6 +51,6 @@ routerProd.delete('/:pid', async (req, res) => {
     if (confirmacion)
         res.status(200).send("Producto eliminado correctamente")
     else    
-        res.status(404).send("Producto no encontrado")
+        res.status(404).send("Error 404: Producto no encontrado")
 })
 export default routerProd
