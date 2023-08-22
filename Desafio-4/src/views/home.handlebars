@@ -1,0 +1,22 @@
+<div class="flex-container">
+    {{#each productos}}
+    <div class="card" style="width: 18rem;">
+        {{!-- <img src="..." class="card-img-top" alt="..."> --}}
+        <div class="card-body">
+            <h5 class="card-title">Titulo: {{this.title}}</h5>
+            <p class="card-text"> ID: {{this.id}}</p>
+            <p class="card-text"> Descripcion: {{this.decription}}</p>
+            <p class="card-text"> Categoria: {{this.category}}</p>
+            <p class="card-text"> Precio: {{this.price}}</p>
+            <p class="card-text"> Stock: {{this.stock}}</p>
+            <p class="card-text"> Codigo: {{this.code}}</p>
+            <p class="card-text"> Status: 
+                {{#if this.status}}
+                ok
+                {{else}}
+                Disable
+                {{/if}}</p>
+        </div>
+    </div>
+    {{/each}}
+</div>
