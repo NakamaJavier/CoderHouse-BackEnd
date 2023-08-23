@@ -37,7 +37,7 @@
         <div class="card" style="width: 18rem;">
             {{!-- <img src="..." class="card-img-top" alt="..."> --}}
             <div class="card-body">
-                <h5 class="card-title">Titulo: {{this.title}}</h5>
+                <h5 class="card-title">{{this.title}}</h5>
                 <p class="card-text"> ID: {{this.id}}</p>
                 <p class="card-text"> Descripcion: {{this.decription}}</p>
                 <p class="card-text"> Categoria: {{this.category}}</p>
@@ -54,4 +54,12 @@
         </div>
         {{/each}}
     </div>
+</div>
+<div class="delete-option" >
+    <h3>Elimine un producto de la lista</h3>
+    <div class="mb-3">
+        <label for="id" class="form-label">ID</label>
+        <input type="number" name="id" class="form-control" required>
+    </div>
+    <button id="deleteProduct" type="button" class="btn btn-primary">Eliminar Producto</button>
 </div>

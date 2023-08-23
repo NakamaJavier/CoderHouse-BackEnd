@@ -43,11 +43,21 @@ const upload = multer({ storage: storage })
 
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
+
     socket.on('nuevoProducto', async (prod) => {
         console.log(prod)
         //Deberia agregarse al txt o json mediante addProduct
         await productManager.addProduct(prod)
         socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
+        await productManager.getProducts()
+        socket.emit("newProductList", productManager.products)
+    })
+
+    socket.on('borrarProducto', async (id) => {
+        await productManager.deleteProduct(id)
+        socket.emit("mensajeProductoBorrado", "El producto se borro correctamente")
+        await productManager.getProducts()
+        socket.emit("newProductList", productManager.products)
     })
 })
 //Routes

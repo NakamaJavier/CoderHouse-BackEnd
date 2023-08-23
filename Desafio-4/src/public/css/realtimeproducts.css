@@ -34,3 +34,8 @@
 .new-form-product .btn{
     margin: 10px auto;
 }
+.delete-option h3{
+    text-align: center;
+    color: blue;
+    margin-top: 25px;
+}
