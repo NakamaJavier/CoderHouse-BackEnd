@@ -8,7 +8,12 @@ form.addEventListener('submit', (e) => {
     const prod = Object.fromEntries(datForm) //Dado un objeto iterable, te devuelvo sus datos en un objeto simple
     prod.price = parseInt(prod.price)
     prod.stock = parseInt(prod.stock)
+    if (prod.status==="on")
+        prod.status=true
+    else
+        prod.status= false
     console.log(prod);
+    console.log(typeof(prod.price));
     socket.emit('nuevoProducto', prod)
     socket.on('mensajeProductoCreado', (mensaje) => {
         Swal.fire(
