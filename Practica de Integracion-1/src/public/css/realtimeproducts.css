@@ -1,0 +1,41 @@
+.real-time-products{
+    border-top: 1px solid black;
+}
+.real-time-products h3{
+    text-align: center;
+    color: blue;
+    margin-top: 25px;
+}
+
+.real-time-products .flex-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.real-time-products .flex-container .card{
+    margin: 15px;
+}
+
+.new-form-product{
+    width: 30vw;
+    border: 1px solid rgba(161, 161, 161, 0.774);
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px auto;
+}
+
+.new-form-product h3{
+    text-align: center;
+    color: blue;
+    font-size: 22px;
+}
+.new-form-product .btn{
+    margin: 10px auto;
+}
+.delete-option h3{
+    text-align: center;
+    color: blue;
+    margin-top: 25px;
+}
