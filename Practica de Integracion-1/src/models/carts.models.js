@@ -5,7 +5,8 @@ const cartSchema = new Schema({
         id_prod: {
             type: Schema.Types.ObjectId, //asi se obtiene el id autogenerado
             ref: "products",
-            required: true
+            required: true,
+            unique: true
         },
         quantity: {
             type: Number,
