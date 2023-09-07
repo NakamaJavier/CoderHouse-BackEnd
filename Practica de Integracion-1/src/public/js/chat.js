@@ -27,8 +27,8 @@ botonChat.addEventListener('click', () => {
 })
 
 socket.on('mensajes', arrayMensajes => {
-    parrafosMensajes.innerHTML = "" //Limio el html
+    parrafosMensajes.innerHTML = "" //Limpio el html
     arrayMensajes.forEach(mensaje => {
-        parrafosMensajes.innerHTML += `<p>${mensaje.fecha} : ${mensaje.user} escribio ${mensaje.mensaje}</p>`
+        parrafosMensajes.innerHTML += `<p><span>${mensaje.fecha} - ${mensaje.user} escribio :</span> ${mensaje.mensaje}</p>`
     })
 })

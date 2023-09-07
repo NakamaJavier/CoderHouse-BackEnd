@@ -6,6 +6,7 @@ import { Server } from 'socket.io'
 import path from 'path'
 import productRouter from './routes/products.routes.js'
 import cartRouter from './routes/carts.routes.js'
+import messageRouter from './routes/message.routes.js'
 
 //configuro el servidor donde se aloja el sitio
 const app = express()
@@ -28,6 +29,8 @@ app.use(express.urlencoded({ extended: true })) //para hacer pedidos mas extenso
 app.engine('handlebars', engine()) 
 app.set('view engine', 'handlebars') 
 app.set('views', path.resolve(__dirname,'./views')) //ubico donde estan las plantillas a renderizar
+const mensajes = []
+
 
 //Conexion de Socket.io
 const io = new Server(server)
@@ -38,28 +41,13 @@ io.on("connection", (socket) => {
         mensajes.push(info)
         io.emit('mensajes', mensajes)
     })
-    // socket.on('nuevoProducto', async (prod) => {
-    //     console.log(prod)
-    //     //Deberia agregarse al txt o json mediante addProduct
-    //     await productManager.addProduct(prod)
-    //     socket.emit("mensajeProductoCreado", "El producto se creo correctamente")
-    //     await productManager.getProducts()
-    //     socket.emit("newProductList", productManager.products)
-    // })
-
-    // socket.on('borrarProducto', async (id) => {
-    //     await productManager.deleteProduct(id)
-    //     socket.emit("mensajeProductoBorrado", "El producto se borro correctamente")
-    //     await productManager.getProducts()
-    //     socket.emit("newProductList", productManager.products)
-    // })
 })
 
 //Routes
 app.use('/static', express.static(path.join(__dirname, '/public')))
 app.use('/api/product', productRouter)
 app.use('/api/carts',cartRouter)
-
+app.use('api/messages',messageRouter)
 
 //HandleBars
 
