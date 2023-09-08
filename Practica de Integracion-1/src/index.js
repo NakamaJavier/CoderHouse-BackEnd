@@ -29,13 +29,37 @@ app.use(express.urlencoded({ extended: true })) //para hacer pedidos mas extenso
 app.engine('handlebars', engine()) 
 app.set('view engine', 'handlebars') 
 app.set('views', path.resolve(__dirname,'./views')) //ubico donde estan las plantillas a renderizar
-const mensajes = []
+let mensajes = []
 
 
 //Conexion de Socket.io
 const io = new Server(server)
 io.on("connection", (socket) => {
     console.log("Conexion con Socket.io")
+    if(mensajes.length <= 0)
+    {
+        console.log("mensajes deberia estar vacia:", mensajes);
+        const getMessages = async () =>{
+            try{
+                const response = await fetch('http://localhost:4000/api/messages', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    const data = await response.json();
+                    if (data.resultado ==="OK"){
+                        mensajes = data.message
+                        console.log(mensajes)
+                    }else{
+                        console.error(error)
+                    }
+            }catch (error){
+                console.error(error);
+            }
+        }
+        getMessages();
+    }
     socket.on('mensaje', info => {
         console.log(info)
         mensajes.push(info)
@@ -47,20 +71,16 @@ io.on("connection", (socket) => {
 app.use('/static', express.static(path.join(__dirname, '/public')))
 app.use('/api/product', productRouter)
 app.use('/api/carts',cartRouter)
-app.use('api/messages',messageRouter)
+app.use('/api/messages',messageRouter)
 
 //HandleBars
 
 
 app.get('/static', async (req,res) =>{
     try {
-        // await productManager.getProducts();
-        // const productos = productManager.products;
-
         res.render("home", {
             rutaCSS: "home",
             rutaJS: "home",
-            //productos: productos
         });
     } catch (error) {
         console.log(error);

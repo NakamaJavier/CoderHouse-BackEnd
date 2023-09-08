@@ -9,6 +9,11 @@ const messageSchema = new Schema({
         type: String,
         required: true,
     }
+    ,
+    date:{
+        type: String,
+        required: true,
+    }
 })
 
 const messageModel = model ("messages",messageSchema)

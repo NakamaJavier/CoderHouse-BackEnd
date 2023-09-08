@@ -4,6 +4,14 @@ import productModel from "../models/products.models.js"
 
 const cartRouter = Router()
 
+cartRouter.get("/", async (req, res) => {
+    try{
+        const cart = await cartModel.find()
+        res.status(200).send({resultado: "OK", message: cart})
+    }catch (error){
+        res.status(400).send({error: `Error al consultar productos: ${error}`})
+    }
+})
 cartRouter.get("/:cid", async (req, res) => {
     const { cid } = req.params
     try{
