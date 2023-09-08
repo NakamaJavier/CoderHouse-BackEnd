@@ -29,14 +29,21 @@ cartRouter.put("/:id_cart/product/:id_prod/:quantity", async (req,res)=>{
         const cart = await cartModel.findById(id_cart)
         if(cart){
             const prod = await productModel.findById(id_prod)
-            console.log("el valor de prod es: ",prod);
             if(prod){
-                const existingProduct = cart.products.find(product => product.id_prod.toString() === id_prod)
-                console.log("Cargo el producto", existingProduct);
-                if(existingProduct){
-                    res.status(200).send({resultado: "OK", message: existingProduct})
+                const existingProductIndex = cart.products.findIndex(product => product.id_prod.toString() === id_prod)
+                console.log(cart);
+                if(existingProductIndex !== -1){ //existe el producto en el carrito
+                    cart.products[existingProductIndex].quantity = cart.products[existingProductIndex].quantity + parseInt(quantity)
+                    console.log("cart actualizado",cart);
+                    const respuesta = await cartModel.findByIdAndUpdate(id_cart,cart)
+                    res.status(200).send({resultado: "OK", message: `producto actualizado: ${cart.products[existingProductIndex]}`})
                 }else{
-                    res.status(200).send({resultado: "OK", message: existingProduct})
+                    cart.products.push({
+                        id_prod: id_prod,
+                        quantity: parseInt(quantity)
+                    })
+                    const respuesta = await cartModel.findByIdAndUpdate(id_cart,cart)
+                    res.status(200).send({resultado: "OK", message: `producto agregado: ${respuesta}`})
                 }
             }else{
                 res.status(404).send({resultado: "Product not Found", message: prod})
