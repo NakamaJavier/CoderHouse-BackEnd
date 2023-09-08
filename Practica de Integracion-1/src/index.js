@@ -68,7 +68,6 @@ app.get('/static', async (req,res) =>{
 })
 
 app.get('/static/chat', (req, res) => {
-
     res.render('chat', {
         rutaJS: "chat",
         rutaCSS: "style"

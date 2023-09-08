@@ -4,7 +4,8 @@ import productModel from "../models/products.models.js"
 
 const cartRouter = Router()
 
-cartRouter.get("/", async (req, res) => {
+cartRouter.get("/:cid", async (req, res) => {
+    const { cid } = req.params
     try{
         const cart = await cartModel.find()
         res.status(200).send({resultado: "OK", message: cart})
@@ -13,39 +14,39 @@ cartRouter.get("/", async (req, res) => {
     }
 })
 
-cartRouter.post("/:id_prod/:quantity", async (req,res)=>{
-    const {id_prod , quantity } = req.params
-    try{
-        const prodVerify = await productModel.findById(id_prod)
-        if(prodVerify){
-            const prod = await cartModel.findOne({_id: id_prod})
-            if(!prod){
-                const respuesta = await cartModel.create({
-                    id_prod , quantity
-                })
-                res.status(200).send({resultado: "OK", message: respuesta})
-            }else{
-                await cartModel.updateOne({_id: id_prod},{quantity: +quantity})
-                res.status(200).send({resultado: "OK", message: respuesta})
-            }
-            
-        }else
-            res.status(404).send({resultado:"Product not Found", message: prod})
-    }catch (error){
-        res.status(400).send({error: `Error al agregar producto: ${error}`})
-    }
-})
-
 cartRouter.post("/", async (req,res)=>{
-    const {id_prod , quantity } = req.body
     try{
-        const respuesta = await cartModel.create({
-            id_prod , quantity
-        })
+        const respuesta = await cartModel.create({})
         res.status(200).send({resultado: "OK", message: respuesta})
     }catch (error){
         res.status(400).send({error: `Error al agregar producto: ${error}`})
     }
 })
+
+cartRouter.put("/:id_cart/product/:id_prod/:quantity", async (req,res)=>{
+    const {id_cart , id_prod , quantity} = req.params
+    try{
+        const cart = await cartModel.findById(id_cart)
+        if(cart){
+            const prod = await productModel.findById(id_prod)
+            console.log("el valor de prod es: ",prod);
+            if(prod){
+                const existingProduct = cart.products.find(product => product.id_prod.toString() === id_prod)
+                console.log("Cargo el producto", existingProduct);
+                if(existingProduct){
+                    res.status(200).send({resultado: "OK", message: existingProduct})
+                }else{
+                    res.status(200).send({resultado: "OK", message: existingProduct})
+                }
+            }else{
+                res.status(404).send({resultado: "Product not Found", message: prod})
+            }
+        }else
+            res.status(404).send({resultado:"Cart not Found", message: prod})
+    }catch (error){
+        res.status(400).send({error: `Error al agregar producto: ${error}`})
+    }
+})
+
 
 export default cartRouter
