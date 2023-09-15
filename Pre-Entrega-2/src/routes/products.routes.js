@@ -58,7 +58,7 @@ productRouter.put("/:id", async (req,res)=>{
     const { id } = req.params
     const {title, description, category, code, price, status , stock } = req.body
     try{
-        const prod = await productModel.findByIdAndUpdate(id, {title, description, category, code, price,status, stock })
+        const prod = await productModel.findByIdAndUpdate(id, {title, description, category, code, price,status, stock }) //si no paso en el body alguno de los parametros esos parametros se mantendran sin modificar
         if(prod)
             res.status(200).send({resultado: "OK", message: prod})
         else
