@@ -54,7 +54,7 @@ productRouter.get("/", async (req,res)=>{
             nextLink: nextLink,
         }
         console.log(formatedProds);
-        res.status(200).send({resultado: "OK", message: prods})
+        res.status(200).send({resultado: "OK", message: formatedProds})
     }catch (error){
         res.status(400).send({error: `Error al consultar productos: ${error}`})
     }
