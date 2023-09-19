@@ -5,7 +5,6 @@ const productRouter = Router()
 
 productRouter.get("/", async (req,res)=>{
     let {limit,page,sort,category,status} = req.query
-    console.log(limit,page,sort,category,status);
     const filter = {}
     if(status)
         filter.status = status
@@ -18,10 +17,43 @@ productRouter.get("/", async (req,res)=>{
         limit = 10
     if(!page)
         page = 1
-    console.log(limit,page,sort,category,status);
+    console.log(`limit: ${limit}, page: ${page}, sort: ${sort}, category: ${category}, status: ${status}`);
     try{
         const prods = await productModel.paginate(filter,{limit: limit, page:page, sort:sortBy })
-        console.log(prods);
+        //console.log(prods);
+        //Armo los links:
+
+        const linkBuilder = (req, pageVerifier, page)=>{
+            let link
+            if(pageVerifier){ //revisa si existe la pagina contigua 
+                if (req.originalUrl.includes("page=")) { //verifica si en la url del request, entre los query params se haya "page"
+                    link = req.originalUrl.replace(/page=[^&]+/, `page=${page}`); //reemplaza de la url el valor que seguía a "page=" por el valor de page
+                }
+                else {
+                    link = `${req.originalUrl}${req.originalUrl.includes("?") ? "&" : "?"}page=${page}`; //si no esta el "page" entre los query params, lo agrego al final de la url (si no había un query param agrega el '?' y si no el '&') concatenado con el valor de page
+                }
+            }
+            else
+                link = null
+            return link
+            }
+        const nextLink = linkBuilder(req,prods.hasNextPage,prods.nextPage)
+        const prevLink = linkBuilder(req,prods.hasPrevPage,prods.prevPage)
+        
+        const statusRes = res.statusCode == 200 ? "success" : "error"
+        const formatedProds = {
+            status: statusRes,
+            payload: prods.docs,
+            totalPages: prods.totalPages,
+            prevPage: prods.prevPage,
+            nextPage: prods.nextPage,
+            page: prods.page,
+            hasPrevPage: prods.hasPrevPage,
+            hasNextPage: prods.hasNextPage,
+            prevLink: prevLink,
+            nextLink: nextLink,
+        }
+        console.log(formatedProds);
         res.status(200).send({resultado: "OK", message: prods})
     }catch (error){
         res.status(400).send({error: `Error al consultar productos: ${error}`})
