@@ -1,0 +1,72 @@
+.login-container {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%; /* Botón ocupa el 100% del ancho */
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px; /* Añadido margen superior */
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+button:focus {
+    outline: none;
+}
+
+.register-link {
+    text-align: right; /* Alineado a la derecha */
+    margin-top: 10px; /* Añadido margen superior */
+}
+
+.register-link p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.register-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+
