@@ -1,12 +1,14 @@
-body{
-    background-color: rgb(56, 107, 136);
-}
 
 .chat_container{
     margin: 20px;
+    background-color: rgb(26, 49, 63);
+    padding: 15px;
+    min-height: 100vh;
+    color: black;
 }
 .chat_container p {
     font-weight: bold;
+    
 }
 .chat_container p span{
     font-weight: bolder;

@@ -21,12 +21,27 @@ import sessionRouter from "./routes/session.routes.js"
 import userRouter from "./routes/users.routes.js"
 //import FileStorage from 'session-file-store'
 
-function auth(req, res, next) {
-    console.log(req.session.email)
-    if (req.session.email == "admin@admin.com" && req.session.password == "1234") {
-        return next()
+function auth(requiredRoleLvl) {
+    return function(req, res, next) {
+        console.log(req.session.email,req.session.rol)
+        let authLvl
+        switch(req.session.rol){
+            case 'admin':
+                authLvl = 0
+                break;
+            case 'user':
+                authLvl = 1
+                break;
+            default:
+                authLvl = 2
+                break;
+        }
+        console.log(authLvl);
+        if (authLvl <= requiredRoleLvl) {
+            return next();
+        }
+        return res.redirect('/static/userlog');
     }
-    return res.send("No tenes acceso a este contenido")
 }
 
 let mensajes = []
@@ -58,7 +73,7 @@ app.use(session({
             useNewUrlParser: true,
             useUnifiedTopology: true
         },
-        ttl: 900 //en segundos
+        ttl: 90 //en segundos
     }),
     secret: process.env.SESSION_SECRET,
     resave: true,
@@ -113,57 +128,47 @@ app.get('/getCookie', (req, res) => {
 
 //SESSIONS
 
-app.get('/session', (req, res) => {
-    if (req.session.counter) {
-        req.session.counter++
-        res.send(`Has entrado ${req.session.counter} veces a mi pagina`)
-    } else {
-        req.session.counter = 1
-        res.send("hola, por primera vez")
-    }
-})
+// app.get('/session', (req, res) => {
+//     if (req.session.counter) {
+//         req.session.counter++
+//         res.send(`Has entrado ${req.session.counter} veces a mi pagina`)
+//     } else {
+//         req.session.counter = 1
+//         res.send("hola, por primera vez")
+//     }
+// })
 
-app.get('/logout', (req, res) => {
-    req.session.destroy(() => {
-        res.send("Salio de la sesion")
-    })
-})
+// app.get('/logout', (req, res) => {
+//     req.session.destroy(() => {
+//         res.send("Salio de la sesion")
+//     })
+// })
 
-app.get('/login', (req, res) => {
-    const {
-        email,
-        password
-    } = req.body
-    const validation = true
-    if (validation) {
-        req.session.email = email
-        req.session.password = password
-        return res.send("Usuario Logueado")
-    }
-    return res.send("Usario Incorrecto")
-})
+// app.get('/login', (req, res) => {
+//     const {
+//         email,
+//         password
+//     } = req.body
+//     const validation = true
+//     if (validation) {
+//         req.session.email = email
+//         req.session.password = password
+//         return res.send("Usuario Logueado")
+//     }
+//     return res.send("Usario Incorrecto")
+// })
 
-app.get('/admin', auth, (req, res) => {
-    res.send("Sos admin")
-})
+
 //HandleBars
 
-app.get('/static', async (req, res) => {
-    try {
-        // await productManager.getProducts();
-        // const productos = productManager.products;
-
+app.get('/static', auth(2), (req, res) => {
         res.render("home", {
             rutaCSS: "home",
             rutaJS: "home",
-            //productos: productos
-        });
-    } catch (error) {
-        console.log(error);
-    }
+        })
 })
 
-app.get('/static/chat', (req, res) => {
+app.get('/static/chat', auth(1), (req, res) => {
 
     res.render('chat', {
         rutaJS: "chat",
@@ -171,20 +176,36 @@ app.get('/static/chat', (req, res) => {
     })
 })
 
-app.get('/static/userlog', (req, res) => {
-    res.render('userlog', {
-        rutaJS: "userlog",
-        rutaCSS: "userlog"
+app.get('/static/userlog', auth(2), (req, res) => {
+    if(!req.session.login)
+        {
+        res.render('userlog', {
+            rutaJS: "userlog",
+            rutaCSS: "userlog"
+        })
+    }else{
+        res.redirect('/static/profile')
+    }
+})
+
+app.get('/static/profile',auth(1),(req, res) => {
+    res.render('profile', {
+        rutaJS: "profile",
+        rutaCSS: "profile",
+        email: req.session.email
     })
 })
 
-app.get('/static/register', (req, res) => {
+app.get('/static/register', auth(2), (req, res) => {
     res.render('register', {
         rutaJS: "register",
         rutaCSS: "register"
     })
 })
 
+app.get('/static/admin', auth(0), (req, res) => {
+    res.send("Sos admin")
+})
 // app.get('/static/realtimeproducts', async (req,res) =>{
 //     try {
 //         await productManager.getProducts();

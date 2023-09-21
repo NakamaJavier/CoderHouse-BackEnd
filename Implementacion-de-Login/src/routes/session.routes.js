@@ -14,6 +14,11 @@ sessionRouter.post('/login', async (req,res)=>{
             if(user){
                 if(user.password === password){     //verifico si el password es correcto
                     req.session.login = true
+                    req.session.email = email
+                    req.session.rol = user.rol
+                    req.session.first_name = user.first_name
+                    req.session.last_name = user.last_name
+                    req.session.age = user.age
                     res.status(200).send({resultado: 'OK', message: `Se logró logearse con el mail: ${user.email}`})
                     //res.redirect('path',200,{'info': user})
                 }else{
