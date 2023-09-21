@@ -1,3 +1,10 @@
+.register-container-center{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
 
 .register-container {
     background-color: #fff;

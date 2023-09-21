@@ -8,19 +8,19 @@ sessionRouter.post('/login', async (req,res)=>{
     try{
         console.log(req.session.login)
         if(req.session.login){  //si ya estaba logeado correctamente
-            res.status(200).send({resultado: 'ya esta logeado'})
+            res.status(200).send({resultado: 'OK', message: "Ya esta logeado"})
         }else{
             const user = await userModel.findOne({email:email})    //busco un usuario con el email enviado
             if(user){
                 if(user.password === password){     //verifico si el password es correcto
                     req.session.login = true
-                    res.status(200).send({resultado: 'Logged In', message: user})
+                    res.status(200).send({resultado: 'OK', message: `Se logró logearse con el mail: ${user.email}`})
                     //res.redirect('path',200,{'info': user})
                 }else{
-                    res.status(401).send({resultado: 'Unauthorized', message: user})
+                    res.status(401).send({error: 'Unauthorized', message: "Email o contraseña equivocada"})
                 }
             }else{
-                res.status(404).send({resultado: 'Not Found', message: user})
+                res.status(404).send({error: 'Unauthorizedd', message: "Email o contraseña equivocada"})
             }
         }
     }catch(error){

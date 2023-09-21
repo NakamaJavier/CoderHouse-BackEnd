@@ -11,3 +11,7 @@ body{
 .chat_container p span{
     font-weight: bolder;
 }
+
+.chat_container button{
+    margin-bottom: 10px;
+}
