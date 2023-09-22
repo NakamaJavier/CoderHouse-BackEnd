@@ -187,7 +187,7 @@ app.get('/static/userlog', auth(2), (req, res) => {
             rutaCSS: "userlog"
         })
     }else{
-        res.redirect('/static/profile')
+        res.redirect('/static/realtimeproducts')
     }
 })
 
@@ -213,6 +213,7 @@ app.get('/static/realtimeproducts', async (req,res) =>{
         res.render("realTimeProducts", {
             rutaCSS: "realtimeproducts",
             rutaJS: "realTimeProducts",
+            email: req.session.email,
         })
 
 })
