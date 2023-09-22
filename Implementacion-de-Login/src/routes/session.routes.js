@@ -39,7 +39,7 @@ sessionRouter.get('/logout', (req,res) =>{
             console.log("Elimino el session");
             req.session.destroy()
         }
-        res.status(200).send({resultado: 'Ha sido deslogeado'})
+        res.status(200).redirect("/static/userlog")
     }catch(error){
         res.status(400).send({error: `Error al desloguearse: ${error}`})
     }

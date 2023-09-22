@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(data => {
                     if (data.resultado === "OK") {
                         console.log(data.message);
+                        window.location.reload();
                     } else {
                         console.log(data.error);;
                     }

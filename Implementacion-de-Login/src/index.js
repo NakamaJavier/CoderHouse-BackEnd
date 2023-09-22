@@ -84,7 +84,10 @@ app.use(session({
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', path.resolve(__dirname, './views')) //ubico donde estan las plantillas a renderizar
-
+app.use(function(req, res, next) {
+    res.locals.session = req.session;
+    next();
+});
 
 //Conexion de Socket.io
 const io = new Server(server)
@@ -206,16 +209,10 @@ app.get('/static/register', auth(2), (req, res) => {
 app.get('/static/admin', auth(0), (req, res) => {
     res.send("Sos admin")
 })
-// app.get('/static/realtimeproducts', async (req,res) =>{
-//     try {
-//         await productManager.getProducts();
-//         const productos = productManager.products;
-//         res.render("realTimeProducts", {
-//             rutaCSS: "realtimeproducts",
-//             rutaJS: "realTimeProducts",
-//             productos: productos
-//         })
-//     } catch (error) {
-//         console.log(error);
-//     }
-// })
+app.get('/static/realtimeproducts', async (req,res) =>{
+        res.render("realTimeProducts", {
+            rutaCSS: "realtimeproducts",
+            rutaJS: "realTimeProducts",
+        })
+
+})

@@ -17,9 +17,15 @@
                     <a class="nav-link" href="/static/realtimeproducts">Products</a>
                 </li>
             </ul>
+            {{#if session.login}}
+            <form class="d-flex" role="search">
+                <a class="nav-link" href="/api/session/logout">Log out</a>
+            </form>
+            {{else}}
             <form class="d-flex" role="search">
                 <a class="nav-link" href="/static/userlog">Log In</a>
             </form>
+            {{/if}}
         </div>
     </div>
 </nav>
