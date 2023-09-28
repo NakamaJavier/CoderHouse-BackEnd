@@ -10,24 +10,25 @@ document.addEventListener('DOMContentLoaded', function () {
             email: emailInput.value,
             password: passwordInput.value
         }
-        const response = await fetch('http://localhost:4000/api/session/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(user),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.resultado === "OK") {
-                        console.log(data.message);
-                        window.location.reload();
-                    } else {
-                        console.log(data.error);;
-                    }
-                }).catch(error => {
-                    console.log(error,data.message);
-                });
+        try {
+            const response = await fetch('http://localhost:4000/api/session/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(user),
+            });
+    
+            const data = await response.json();
+    
+            if (data.resultado === "OK") {
+                console.log(data.message);
+                window.location.reload();
+            } else {
+                console.log(data.error);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     })
-
 })

@@ -29,7 +29,7 @@ function auth(requiredRoleLvl) {
         console.log(`req.session: ${req.session} - req.session.mail: ${req.session.email} - req.session.rol: ${req.session.rol}`);
         console.log(req.session);
         let authLvl
-        switch (req.session.rol) {
+        switch (req.session.user?.rol) {
             case 'admin':
                 authLvl = 0
                 break;

@@ -47,6 +47,7 @@ const initializePassport = () => {
             }
 
             if (validatePassword(password, user.password)) {
+                console.log("es un usuario valido");
                 return done(null, user) //Usuario y contraseña validos
             }
 
