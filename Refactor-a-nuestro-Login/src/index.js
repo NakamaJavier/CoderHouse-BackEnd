@@ -26,7 +26,8 @@ import initializePassport from "./config/passport.js"
 
 function auth(requiredRoleLvl) {
     return function (req, res, next) {
-        console.log(req.session.email, req.session.rol)
+        console.log(`req.session: ${req.session} - req.session.mail: ${req.session.email} - req.session.rol: ${req.session.rol}`);
+        console.log(req.session);
         let authLvl
         switch (req.session.rol) {
             case 'admin':

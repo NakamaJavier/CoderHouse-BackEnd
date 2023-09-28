@@ -1,6 +1,6 @@
 import local from 'passport-local' //Estrategia
 import passport from 'passport' //Manejador de las estrategias
-//import GithubStrategy from 'passport-github2'
+import GithubStrategy from 'passport-github2'
 import { createHash, validatePassword } from '../utils/bcrypt.js'
 import userModel from '../models/users.models.js'
 
@@ -58,37 +58,34 @@ const initializePassport = () => {
 
     }))
 
-    // passport.use('github', new GithubStrategy({
-    //     clientID: process.env.CLIENT_ID,
-    //     clientSecret: process.env.CLIENT_SECRET,
-    //     callbackURL: process.env.CALLBACK_URL
+    passport.use('github', new GithubStrategy({
+        clientID: process.env.CLIENT_ID,
+        clientSecret: process.env.CLIENT_SECRET,
+        callbackURL: process.env.CALLBACK_URL
 
-    // }, async (accessToken, refreshToken, profile, done) => {
+    }, async (accessToken, refreshToken, profile, done) => {
 
-    //     try {
-    //         console.log(accessToken)
-    //         console.log(refreshToken)
-    //         console.log(process.env.CALLBACK_URL)
-    //         const user = await userModel.findOne({ email: profile._json.email })
-    //         if (!user) {
-    //             const userCreated = await userModel.create({
-    //                 first_name: profile._json.name,
-    //                 last_name: ' ',
-    //                 email: profile._json.email,
-    //                 age: 18, //Edad por defecto,
-    //                 password: 'password'
-    //             })
-    //             done(null, userCreated)
+        try {
+            let user = await userModel.findOne({ email: profile._json.email })
+            console.log(user);
+            if (!user) {
+                let userCreated = await userModel.create({
+                    first_name: profile._json.name,
+                    last_name: ' ',
+                    email: profile._json.email,
+                    age: 18, //Edad por defecto,
+                    password: createHash('password')
+                })
+                done(null, userCreated)
+            } else {
+                done(null, user)
+            }
 
-    //         } else {
-    //             done(null, user)
-    //         }
+        } catch (error) {
+            done(error)
+        }
 
-    //     } catch (error) {
-    //         done(error)
-    //     }
-
-    // }))
+    }))
 
     //Inicializar la session del usr
     passport.serializeUser((user, done) => {
