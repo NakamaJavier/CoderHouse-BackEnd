@@ -1,0 +1,14 @@
+.flex-container{
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.flex-container .card{
+    margin: 15px;
+}
+
+h1{
+    color: aliceblue;
+}

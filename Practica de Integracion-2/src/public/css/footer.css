@@ -1,0 +1,100 @@
+footer {
+    width: 100%;
+    height: 75px;
+    background-color: #002da81e;
+}
+
+footer .redes {
+    background-color: rgb(52, 104, 90);
+    padding-bottom: 0px;
+}
+
+footer .redes h2 {
+    font-family: "Roboto", sans-serif;
+    font-style: normal;
+    font-weight: 600px;
+    font-size: 18px;
+    color: white;
+    text-align: center;
+    padding: 5px 0px 0px 0px;
+    margin: 0em;
+}
+
+footer .redes .redesFlex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: normal;
+    margin-left: 120px;
+}
+
+footer .redes .redesFlex .redes_icon {
+    width: 48px;
+    height: 48x;
+    text-decoration: none;
+}
+
+footer .redes .redesFlex .face,
+footer .redes .redesFlex .twitter,
+footer .redes .redesFlex .insta {
+    text-decoration: none;
+}
+footer .redes .redesFlex .insta {
+    margin-left: 0px;
+}
+footer .redes .redesFlex .face:after,
+footer .redes .redesFlex .twitter:after,
+footer .redes .redesFlex .insta:after {
+    position: relative;
+    top: 3px;
+    content: "facebook/VarShoes";
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    opacity: 0;
+}
+
+footer .redes .redesFlex .face:hover,
+footer .redes .redesFlex .twitter:hover,
+footer .redes .redesFlex .insta:hover {
+    -webkit-animation: efecto 2s ease-out both;
+    animation: efecto 2s ease-out both;
+}
+
+footer .redes .redesFlex .face:hover::after,
+footer .redes .redesFlex .twitter:hover::after,
+footer .redes .redesFlex .insta:hover::after {
+    opacity: 1;
+    transition: opacity 2s ease-in-out 0.4s;
+}
+
+footer .redes .redesFlex .insta:after {
+    content: "instagram/VarPadel";
+    top: 2px;
+}
+
+footer .redes .redesFlex .twitter:after {
+    content: "twitter/VarPadel";
+    top: 2px;
+}
+
+@-webkit-keyframes efecto {
+    0% {
+        transform: translateX(0px) scale(1);
+    }
+
+    100% {
+        transform: translateX(-6vw) scale(1);
+    }
+}
+
+@keyframes efecto {
+    0% {
+        transform: translateX(0px) scale(1);
+    }
+
+    100% {
+        transform: translateX(-6vw) scale(1);
+    }
+}

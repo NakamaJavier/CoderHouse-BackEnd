@@ -1,0 +1,53 @@
+.profile-card {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.profile-name {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    font-size: 18px;
+    margin: 0;
+}
+
+
+.product-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    padding: 20px;
+}
+
+.product-card {
+    margin: 0 auto;
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 300px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+}
+
+.product-card h2 {
+    font-size: 1.2em;
+    margin: 0;
+    color: blue;
+}
+
+.product-card p {
+    margin: 5px 0;
+}
+
+.product-card p span{
+    font-weight:500;
+}
