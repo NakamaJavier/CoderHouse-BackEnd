@@ -4,6 +4,7 @@ import {validatePassword} from "../utils/bcrypt.js"
 import passport from "passport"
 
 const sessionRouter = Router()
+
 sessionRouter.post('/login', passport.authenticate('login'), async (req, res) => {
     try {
         console.log(req.user);
@@ -19,6 +20,8 @@ sessionRouter.post('/login', passport.authenticate('login'), async (req, res) =>
             email: req.user.email,
             rol: req.user.rol
         }
+        const token = enerateToken(req.user)
+        
         console.log(req.session.user);
         res.status(200).send({resultado: 'OK', message: `Se logró logearse con el mail: ${req.user.email}`})
     } catch (error) {

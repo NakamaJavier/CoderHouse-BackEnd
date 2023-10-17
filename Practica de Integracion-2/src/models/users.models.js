@@ -26,7 +26,12 @@ const userSchema = new Schema({
     age: {
         type: Number,
         required: true
+    },
+    id_cart: {
+        type: Schema.Types.ObjectId, //Id autogenerado de MongoDB
+        ref: 'products',
     }
+    
 })
 const userModel = model('users', userSchema)
 export default userModel
