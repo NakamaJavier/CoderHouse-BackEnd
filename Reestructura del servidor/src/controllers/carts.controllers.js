@@ -65,7 +65,7 @@ export const putProdQuantityInCart = async (req, res) => {
                 return res.status(404).send({ error: "Producto no encontrado", message: `El producto con ID: ${id_prod} no existe` })
         }
     }catch (error){
-        return res.status(400).send({error: `Error al agregar producto: ${error}`})
+        return res.status(500).send({error: `Error al agregar producto: ${error}`})
     }
 }
 
@@ -92,10 +92,10 @@ export const putProdsToCart = async (req, res) => {
                     error=true
             }
             if(error)
-                return res.status(404).send({error:"Product/s not Found", message: `Al menos uno de los productos no exisen`})
+                return res.status(404).send({error:"Product/s not Found", message: `Al menos uno de los productos no existe`})
             else{
                 const respuesta = await cartModel.findByIdAndUpdate(cid,{products: cart.products},{ new: true })
-                return res.status(200).send({resultado: "OK", message: "Se actualizo el carrito con los productos"})
+                return res.status(200).send({resultado: "OK", message: `Se actualizo el carrito con los siguientes productosÑ ${respuesta}`})
             }
         }
     }catch (error){
@@ -105,10 +105,48 @@ export const putProdsToCart = async (req, res) => {
 }
 
 export const deleteProdInCart = async (req, res) => {
+    const {cid, id_prod } = req.params
+    try{
+        const cart = await cartModel.findById(cid)
+        if(!cart)//me aseguro que exista el carrito
+            return res.status(404).send({resultado: "Cart Not Found", message: cart})
+        else{
+            const prodVerify = await productModel.findById(id_prod)
+            if(prodVerify){//me aseguro que exista el producto
+                const productIndex = cart.products.findIndex((product) => product.id_prod.equals(id_prod))
+                if(productIndex>=0){//si el producto existe en el carrito
+                    cart.products.splice(productIndex,1)
+                    const respuesta = await cartModel.findByIdAndUpdate(cid,{products: cart.products},{new:true})
+                    return res.status(200).send({resultado: "OK", message: `Producto eliminado del carrito:`,respuesta})
+                }else{
+                    return res.status(404).send({resultado: "Product not Found", message: "El producto no fue encontrado en el carrito"})
+                }
+            }else
+                return res.status(404).send({resultado:"Product not Found", message: `El producto con esa ID: ${id_prod} no existe`})
+        }
+    }catch (error){
+        return res.status(500).send({error: `Error al agregar producto: ${error}`})
+    }
 }
 
 export const postCart = async (req, res) => {
+    try{
+        const respuesta = await cartModel.create({products : []})
+        return res.status(201).send({resultado: "OK", message: respuesta})
+    }catch (error){
+        return res.status(500).send({error: `Error al agregar producto: ${error}`})
+    }
 }
 
-export const deleteCart = async (req, res) => {
+export const deleteEmptyCart = async (req, res) => {
+    const {cid} = req.params
+    try{
+        const cart = await cartModel.findByIdAndUpdate(cid, {products : []})
+        if(cart)
+            return res.status(200).send({resultado: "OK", message: "Carrito vaciado"})
+        else    
+            return res.status(404).send({resultado: "Carrito no Encontrado", message: cart})
+    }catch (error){
+        return res.status(500).send({error: `Error al consultar productos: ${error}`})
+    }
 }
