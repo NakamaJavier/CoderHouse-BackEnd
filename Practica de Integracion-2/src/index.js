@@ -74,27 +74,14 @@ io.on("connection", async (socket) => {
     })
 })
 
-
 //Routes
 
 app.use('/', front)
 app.use('/', router)
 
 
-//Cookies
-
-app.get('/setCookie', (req, res) =>
-    res.cookie('CookieCoockie', 'Esto es el valor de una cookie', {
-        maxAge: 30000,
-        signed: true
-    }).send('Cookie creada')) //cookie de 1 minuto con firma
-
-app.get('/getCookie', (req, res) => {
-    res.send(req.signedCookies)
-})
 
 
-//SESSIONS
 
 
 

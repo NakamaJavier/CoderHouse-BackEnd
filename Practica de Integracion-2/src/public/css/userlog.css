@@ -13,6 +13,7 @@
     max-width: 400px;
     width: 100%;
     text-align: center;
+    outline: none;
 
 }
 
@@ -40,7 +41,7 @@
     font-size: 16px;
 }
 
-button {
+.btn-email-login {
     width: 100%; /* Botón ocupa el 100% del ancho */
     padding: 10px;
     background-color: #007bff;
@@ -52,11 +53,11 @@ button {
     margin-top: 10px; /* Añadido margen superior */
 }
 
-button:hover {
+.btn-email-login:hover {
     background-color: #0056b3;
 }
 
-button:focus {
+.btn-email-login:focus {
     outline: none;
 }
 
@@ -76,5 +77,23 @@ button:focus {
     font-weight: bold;
 }
 
+.logins-strategies{
+    margin-top: 15px;
+}
+.btn-github-login {
+    background-color: #fff;
+    border: none;
+    display: inline-block;
+    margin-top: 10px;
+    border: 1px solid #fff;
+}
 
+.btn-github-login:hover {
+    border: 1px solid rgba(121, 121, 121, 0.082);
+    border-radius: 4px;
+    background-color: #63636310
+}
 
+.btn-github-login:focus {
+    outline: none;
+}
