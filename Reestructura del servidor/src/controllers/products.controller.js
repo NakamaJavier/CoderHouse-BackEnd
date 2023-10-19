@@ -2,7 +2,7 @@ import productModel from "../models/products.models.js";
 
 export const getProducts = async (req, res) => {
     console.log(req.query);
-    const { limit, page, filter, sort } = req.query
+    const { limit,page,sort,category,status } = req.query
 
     const pag = page ? page : 1
     const lim = limit ? limit : 10
