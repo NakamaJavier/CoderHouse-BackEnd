@@ -15,9 +15,7 @@ const initializePassport = () => {
 
     
     const cookieExtractor = req => {
-        console.log(req.cookies)
         const token = req.cookies.jwtCookie ? req.cookies.jwtCookie : ""
-        console.log(token)
         return token
     }
     
@@ -98,7 +96,6 @@ const initializePassport = () => {
                 console.log("cree un usuario");
                 done(null, userCreated)
             } else {
-                console.log("me loguie");
                 done(null, user)
             }
 
