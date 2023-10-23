@@ -41,6 +41,7 @@ Swal.fire({
 botonChat.addEventListener('click', async () => {
     let fechaActual = new Date().toLocaleString()
     const message = { email: email, message: valInput.value, date:fechaActual }
+    const messageJSON = JSON.stringify(message)
     if (valInput.value.trim().length > 0) {     //Evitar que me envien un mensaje vacio
         try{
             //guardo el mensaje en la base de datos usando la terminal POST
@@ -49,7 +50,7 @@ botonChat.addEventListener('click', async () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(message),
+                body: messageJSON,
             });
             const data = await response.json();
             if (data.resultado ==="OK"){
@@ -59,7 +60,7 @@ botonChat.addEventListener('click', async () => {
                 console.error(data.resultado)
             }
         }catch{
-            console.error(error);
+            console.log(error);
         }
         
     }

@@ -59,7 +59,6 @@ export const getProducts = async (req, res) => {
         return res.status(404).send({
             error: "Productos no encontrados"
         })
-
     } catch (error) {
         return res.status(500).send({
             error: `Error en consultar productos ${error}`
@@ -69,9 +68,7 @@ export const getProducts = async (req, res) => {
 }
 
 export const getProduct = async (req, res) => {
-    const {
-        id
-    } = req.params
+    const { id } = req.params
     try {
         const product = await productModel.findById(id)
         if (product) {
