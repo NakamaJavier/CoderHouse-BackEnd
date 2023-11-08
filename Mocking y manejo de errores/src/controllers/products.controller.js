@@ -1,3 +1,6 @@
+import CustomError from "../errors/CustomError.js";
+import EErrors from "../errors/EErrors.js";
+import { generateProductErrorInfo } from "../errors/info.js";
 import productModel from "../models/products.models.js";
 
 export const getProducts = async (req, res) => {
@@ -91,16 +94,34 @@ export const postProduct = async (req, res) => {
         code,
         price,
         stock,
-        category
+        category,
+        status
     } = req.body
+
     try {
+        if (typeof title !== 'string' ||
+        typeof description !== 'string' ||
+        typeof category !== 'string' ||
+        typeof code !== 'string' ||
+        typeof price !== 'number' ||
+        (status !== undefined && typeof status !== 'boolean') ||
+        typeof stock !== 'number'
+    ) {
+        CustomError.createError({
+            name: "Product creation error",
+            cause: generateProductErrorInfo(req.body),
+            message: "Error trying to create Product",
+            code: EErrors.INVALID_TYPES_ERROR
+        })
+    }
         const product = await productModel.create({
             title,
             description,
             code,
             price,
             stock,
-            category
+            category,
+            status
         })
         if (product) {
             return res.status(201).send({resultado: "OK", message: product})
@@ -112,7 +133,9 @@ export const postProduct = async (req, res) => {
             })
         }
         return res.status(500).send({
-            error: `Error en consultar producto ${error}`
+            error: `Error en consultar producto ${error}`,
+            code: error.code,
+            cause: error.cause
         })
     }
 }
@@ -137,7 +160,7 @@ export const putProduct = async (req, res) => {
         })
     } catch (error) {
         return res.status(500).send({
-            error: `Error en actualizar producto ${error}`
+            error: `Error en actualizar producto ${error.cause}`
         })
     }
 }
@@ -154,7 +177,7 @@ export const deleteProduct = async (req, res) => {
         })
     } catch (error) {
         res.status(500).send({
-            error: `Error en eliminar producto ${error}`
+            error: `Error en eliminar producto ${error}`,
         })
     }
 }
