@@ -14,9 +14,8 @@ import passport from 'passport'
 import initializePassport from './config/passport.js'
 import cors from 'cors'
 import nodemailer from 'nodemailer'
-
-
-
+import compression from "express-compression"
+import { fakerES as faker } from '@faker-js/faker'
 
 //Configuracion del Servidor
 
@@ -65,7 +64,9 @@ app.use(session({ //Configuracion de la sesion de mi app
 initializePassport()
 app.use(passport.initialize())
 app.use(passport.session())
-
+app.use( compression ({
+    brotli:{enabled:true, zlib:{}}
+}))
 //configuracion del handlebars como las plantillas para renderizar
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
@@ -128,5 +129,33 @@ app.get('/mail', async (req, res) => {
     res.send('Mail enviado')
 })
 
+// para la entrega de Mocking
+const modelProduct = () => {
+    const categories = ['legumbre', 'lácteo', 'fruta', 'carnes', 'panadería', 'bebida'];
+    const category = faker.helpers.arrayElement(categories);
+    return {
+        title: faker.commerce.productName(),
+        description: faker.commerce.productDescription(),
+        category: category,
+        code: faker.string.uuid(),
+        price: faker.commerce.price(),
+        status: faker.datatype.boolean(),
+        stock: faker.helpers.rangeToNumber({ min: 1, max: 100 }),
+        thumbnail: Array.from({ length: faker.helpers.rangeToNumber({ min: 1, max: 5 }) }, () => faker.image.url())
+    };
+};
+const createRandomProducts = (cantProducts) => {
+    const products = []
 
+    for (let i = 0; i < cantProducts; i++) {
+        products.push(modelProduct())
+    }
+
+    return products
+}
+
+app.get('/mockingproducts', async (req,res) => {
+    const products = createRandomProducts(100)
+    return res.status(200).send({ resultado: "OK", message: products })
+})
 
