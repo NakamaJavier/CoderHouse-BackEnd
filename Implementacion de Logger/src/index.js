@@ -168,9 +168,8 @@ app.get('/mockingproducts', async (req,res) => {
 app.get('/loggertest',requestLogger, async (req,res) => {
     try{
         logger.fatal('Soy un fatal')
-        
-        logger.warning('Soy un warning')
         logger.error('Soy un error')
+        logger.warning('Soy un warning')
         logger.info('Soy un info')
         logger.http('Soy un http')
         logger.debug('Soy un debug')

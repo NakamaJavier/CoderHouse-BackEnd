@@ -21,7 +21,8 @@ const customOptions = {
         error: 'red',
         warning: 'yellow',
         info: 'blue',
-        debug: 'green'
+        http: 'green',
+        debug: 'white'
     }
 }
 
