@@ -170,9 +170,11 @@ app.get('/loggertest',requestLogger, async (req,res) => {
         logger.fatal('Soy un fatal')
         
         logger.warning('Soy un warning')
-        logger.info('Soy un info')
-        logger.debug('Soy un debug')
         logger.error('Soy un error')
+        logger.info('Soy un info')
+        logger.http('Soy un http')
+        logger.debug('Soy un debug')
+
         //throw new Error ('Test error')
     }catch(error){
         logger.error(`[ERROR] [${new Date().toLocaleString()}] Ha ocurrido un error: ${error.message}`)
