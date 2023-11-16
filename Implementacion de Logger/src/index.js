@@ -29,9 +29,9 @@ const server = app.listen(PORT, () => {
 
 //Configuracion de la BD (en MOGODB Atlas)
 
-// mongoose.connect(process.env.MONGO_URL)
-//     .then(() => console.log("DB conectada"))
-//     .catch((error) => console.error("Error en conexion con MongoDB Atlas: ", error))
+mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log("DB conectada"))
+    .catch((error) => console.error("Error en conexion con MongoDB Atlas: ", error))
 
 
     //Configuracion CORS para fetch (NO SE ESTA USANDO)
@@ -54,11 +54,11 @@ app.use(express.json()) //para procesar datos en formato JSON que se envian en l
 app.use(express.urlencoded({extended: true})) //para hacer pedidos mas extensos los datos enviados en la url
 app.use(cookieParser(process.env.JWT_SECRET)) //para firmar las cookies
 app.use(session({ //Configuracion de la sesion de mi app
-    // store: MongoStore.create({
-    //     mongoUrl: process.env.MONGO_URL,
-    //     //mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-    //     ttl: 90
-    // }),
+    store: MongoStore.create({
+        mongoUrl: process.env.MONGO_URL,
+        //mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+        ttl: 90
+    }),
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
@@ -165,11 +165,17 @@ app.get('/mockingproducts', async (req,res) => {
 
 //para la entrega de logger
 
-app.get('/errors',requestLogger, async (req,res) => {
+app.get('/loggertest',requestLogger, async (req,res) => {
     try{
-        throw new Error ('Test error')
+        logger.fatal('Soy un fatal')
+        
+        logger.warning('Soy un warning')
+        logger.info('Soy un info')
+        logger.debug('Soy un debug')
+        logger.error('Soy un error')
+        //throw new Error ('Test error')
     }catch(error){
         logger.error(`[ERROR] [${new Date().toLocaleString()}] Ha ocurrido un error: ${error.message}`)
-        res.status(500).send({error: `Error de testeo ${error}`})
+        return res.status(500).send({error: `Error de testeo ${error}`})
     }
 })
