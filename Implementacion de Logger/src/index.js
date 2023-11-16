@@ -16,6 +16,8 @@ import cors from 'cors'
 import nodemailer from 'nodemailer'
 import compression from "express-compression"
 import { fakerES as faker } from '@faker-js/faker'
+import { logger, requestLogger } from "./utils/logger.js"
+
 
 //Configuracion del Servidor
 
@@ -27,9 +29,9 @@ const server = app.listen(PORT, () => {
 
 //Configuracion de la BD (en MOGODB Atlas)
 
-mongoose.connect(process.env.MONGO_URL)
-    .then(() => console.log("DB conectada"))
-    .catch((error) => console.error("Error en coexion con MongoDB Atlas: ", error))
+// mongoose.connect(process.env.MONGO_URL)
+//     .then(() => console.log("DB conectada"))
+//     .catch((error) => console.error("Error en conexion con MongoDB Atlas: ", error))
 
 
     //Configuracion CORS para fetch (NO SE ESTA USANDO)
@@ -52,11 +54,11 @@ app.use(express.json()) //para procesar datos en formato JSON que se envian en l
 app.use(express.urlencoded({extended: true})) //para hacer pedidos mas extensos los datos enviados en la url
 app.use(cookieParser(process.env.JWT_SECRET)) //para firmar las cookies
 app.use(session({ //Configuracion de la sesion de mi app
-    store: MongoStore.create({
-        mongoUrl: process.env.MONGO_URL,
-        mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
-        ttl: 90
-    }),
+    // store: MongoStore.create({
+    //     mongoUrl: process.env.MONGO_URL,
+    //     //mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
+    //     ttl: 90
+    // }),
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
@@ -112,6 +114,8 @@ let transporter = nodemailer.createTransport({
     }
 });
 
+// CODIGO DE PRUEBA (SIN USO DIRECTO EN EL SITIO)
+
 app.get('/mail', async (req, res) => {
     const resultado = await transporter.sendMail({
         from: 'TEST Fran jnakamatesting@gmail.com',
@@ -159,3 +163,13 @@ app.get('/mockingproducts', async (req,res) => {
     return res.status(200).send({ resultado: "OK", message: products })
 })
 
+//para la entrega de logger
+
+app.get('/errors',requestLogger, async (req,res) => {
+    try{
+        throw new Error ('Test error')
+    }catch(error){
+        logger.error(`[ERROR] [${new Date().toLocaleString()}] Ha ocurrido un error: ${error.message}`)
+        res.status(500).send({error: `Error de testeo ${error}`})
+    }
+})

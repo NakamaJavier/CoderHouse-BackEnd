@@ -3,6 +3,7 @@ import express from "express"
 import path from "path"
 import { __dirname } from "../path.js";
 import { passportError, authorization } from "../utils/messageErrors.js"
+import { requestLogger } from "../utils/logger.js";
 
 const front = Router()
 
@@ -13,7 +14,6 @@ front.use('/static', express.static(path.join(__dirname, '/public')))
 //HandleBars
 
 front.get('/static',
-
     passportError('jwt'), authorization('user'), //PARA EL USO DE JWT
     (req, res) => {
         res.render("home", {
