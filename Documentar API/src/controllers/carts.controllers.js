@@ -38,7 +38,7 @@ export const postProdToCart = async (req, res) => {
         const respuesta = await cartModel.findByIdAndUpdate(cid, { products: cart.products },{ new: true })
         const status = productIndex >= 0 ? "Actualizado" : "Agregado"
         const statusCode = productIndex >= 0 ? 200 : 201
-        res.status(statusCode).send({ resultado: "OK", status: status, message: respuesta })
+        return res.status(statusCode).send({ resultado: "OK", status: status, message: respuesta })
     }catch (error){
         return res.status(500).send({error: `Error al consultar productos: ${error}`})
     }
@@ -162,7 +162,6 @@ export const postPurchase = async (req, res) => {
                 const productsToBuy = [];
                 const productsNotAvailable = []
                 for (const item of cart.products) {
-                    console.log("1");
                     const product = await productModel.findById(item.id_prod);
                     if (product){
                         if( product.stock >= item.quantity) {

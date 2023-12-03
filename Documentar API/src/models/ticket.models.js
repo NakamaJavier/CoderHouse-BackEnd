@@ -40,7 +40,7 @@ const ticketSchema = new Schema({
 //evito que se pase code como parametro
 ticketSchema.pre('validate', function(next) {
     this.code = uuidv4(); // Genera un UUID único si no se proporciona un valor para code
-    this.date = Date.now
+    this.purchase_datetime = Date.now().toLocaleString('es-ES')
     next();
 })
 
