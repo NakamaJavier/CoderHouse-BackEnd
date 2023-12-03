@@ -175,7 +175,7 @@ app.get('/loggertest',requestLogger, async (req,res) => {
         logger.http('Soy un http')
         logger.debug('Soy un debug')
 
-        //throw new Error ('Test error')
+        //throw new Error ('Test error' )
     }catch(error){
         logger.error(`[ERROR] [${new Date().toLocaleString()}] Ha ocurrido un error: ${error.message}`)
         return res.status(500).send({error: `Error de testeo ${error}`})
