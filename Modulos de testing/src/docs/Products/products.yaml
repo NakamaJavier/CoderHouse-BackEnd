@@ -1,0 +1,258 @@
+/api/products:
+  get:
+    summary: Obtener lista de productos
+    tags:
+      - Products
+    parameters:
+      - in: query
+        name: limit
+        description: Número máximo de productos a retornar
+        schema:
+          type: integer
+      - in: query
+        name: page
+        description: Número de página
+        schema:
+          type: integer
+      - in: query
+        name: sort
+        description: Orden de clasificación ("asc" o "desc")
+        schema:
+          type: string
+      - in: query
+        name: category
+        description: Filtro por categoría
+        schema:
+          type: string
+      - in: query
+        name: status
+        description: Filtro por estado
+        schema:
+          type: boolean
+    responses:
+      '200':
+        description: Lista de productos obtenida correctamente
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resultado:
+                  type: string
+                  description: Mensaje de afirmación del éxito de la operación
+                status:
+                  type: number
+                  description: Tipo de respuesta
+                message:
+                  type: object
+                  description: Lista de productos
+                totalPages:
+                  type: number
+                prevPage:
+                  type: number
+                nextPage:
+                  type: number
+                page:
+                  type: number
+                hasPrevPage:
+                  type: boolean
+                hasNextPage:
+                  type: boolean
+                prevLink:
+                  type: string
+                nextLink:
+                  type: string
+      '404':
+        description: Productos no encontrados
+      '500':
+        description: Error interno del servidor al obtener la lista de productos
+
+/api/products/{id}:
+    get:
+      summary: Obtener un producto por ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor al obtener el producto por ID
+
+    post:
+      summary: Crear un nuevo producto
+      tags:
+        - Products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Título del producto
+                description:
+                  type: string
+                  description: Descripción del producto
+                code:
+                  type: string
+                  description: Código del producto
+                price:
+                  type: number
+                  description: Precio del producto
+                stock:
+                  type: number
+                  description: Stock del producto
+                category:
+                  type: string
+                  description: Categoría del producto
+                status:
+                  type: boolean
+                  description: Estado del producto (opcional)
+              required:
+                - title
+                - description
+                - code
+                - price
+                - stock
+                - category
+      responses:
+        '201':
+          description: Producto creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Llave duplicada o tipos de datos inválidos
+        '500':
+          description: Error interno del servidor al crear el producto
+
+    put:
+      summary: Actualizar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Nuevo título del producto
+                description:
+                  type: string
+                  description: Nueva descripción del producto
+                code:
+                  type: string
+                  description: Nuevo código del producto
+                price:
+                  type: number
+                  description: Nuevo precio del producto
+                stock:
+                  type: number
+                  description: Nuevo stock del producto
+                category:
+                  type: string
+                  description: Nueva categoría del producto
+      responses:
+        '200':
+          description: Producto actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor al actualizar el producto por ID
+
+    delete:
+      summary: Eliminar un producto por ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Producto eliminado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Producto no encontrado
+        '500':
+          description: Error interno del servidor al eliminar el producto por ID
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          required: true
+          description: Nombre del producto
+        description:
+          type: string
+          required: true
+          description: Descripcion del producto
+        category:
+          type: string
+          required: true
+          description: Categoria a la que pertenece el producto
+        code:
+          type: string
+          required: true
+          unique: true
+          description: Codigo autogenerado unico que identifica al producto
+        price:
+          type: number
+          required: true
+          description: Precio del producto
+        status:
+          type: boolean
+          default: true
+          description: Determina si el producto esta o no a la venta
+        stock:
+          type: number
+          required: true
+          description: stock del producto
+        thumbnail:
+          type: array
+          description: link a imagen/es del producto
+      example:
+        title: "Dulce de Leche"
+        description: "Dulce de leche tipo colonial marca Serenisma"
+        code: "3465"
+        price: 600
+        stock: 19
+        category: "lacteo"
+        thumbnail: []
