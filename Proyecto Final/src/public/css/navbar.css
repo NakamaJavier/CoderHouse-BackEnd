@@ -1,0 +1,14 @@
+
+.profile-link{
+    margin-right: 5px;
+}
+
+.logout-link{
+    margin-left: 5px;
+}
+
+/* Estilo para el icono del carrito */
+.fa-shopping-cart {
+    margin-right: 20px; /* Ajusta el margen a tu gusto */
+}
+

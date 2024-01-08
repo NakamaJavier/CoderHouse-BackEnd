@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" data-bs-theme="dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/static/">Comerci0</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/static/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/static/chat">Chat</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/static/realtimeproducts">Products</a>
+                </li>
+            </ul>
+            <div class="d-flex align-items-center">
+                {{#if session.user}}
+                    <button id="btnCarrito" type="button" class="btn cart" data-bs-toggle="modal" data-email="{{email}}" data-bs-target="#exampleModal"></button>
+                    <form class="d-flex" role="search">
+                        <a class="nav-link profile-link" href="/static/profile"> Profile</a><span> | </span><a class="nav-link logout-link" href="/api/sessions/logout">Log out </a>
+                    </form>
+                {{else}}
+                    <form class="d-flex" role="search">
+                        <a class="nav-link" href="/static/userlog">Log In</a>
+                    </form>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</nav>
+
